@@ -1,7 +1,7 @@
 import os
 
 # Configuration
-screenshot_interval = 60  # in seconds, adjust as needed
+screenshot_interval = 3  # in seconds, adjust as needed
 log_file = "activity_log.txt"
 screenshot_folder = "screenshots"
 
