@@ -1,5 +1,5 @@
 import time
-from activity_logger import log_user_activity, get_current_window_title
+from src.activity_logger import log_user_activity, get_current_window_title
 from config import screenshot_interval
 
 

@@ -1,22 +1,39 @@
 import os
 from datetime import datetime
-from screenshot import capture_screenshot
-from active_window import get_current_window_title
+from src.screenshot import capture_screenshot
+from src.active_window import get_current_window_title
 from config import log_file
 import subprocess
+
+last_logged_date = None
+screenshot_directory_logged = False
 
 
 def log_user_activity(window_title):
     """Logs the current active window and screenshot path with a timestamp."""
+    global last_logged_date, screenshot_directory_logged
     try:
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        current_date = datetime.now().strftime("%B %d, %Y")
+        timestamp = datetime.now().strftime("%H:%M:%S")
         screenshot_path = capture_screenshot(window_title)
-        log_entry = (
-            f"At {timestamp}, you were using: {window_title}. "
-            f"A screenshot was saved at: {screenshot_path}\n"
-        )
+        screenshot_filename = os.path.basename(screenshot_path)
+        screenshot_link = f'"file://{os.path.abspath(screenshot_path)}"'
+        log_entry = f"{timestamp} | {window_title} | {screenshot_filename}\n"
         with open(log_file, "a") as f:
+            if last_logged_date != current_date:
+                f.write(f"Date: {current_date}\n\n")
+                last_logged_date = current_date
+                screenshot_directory_logged = False
+            if not screenshot_directory_logged:
+                f.write(f"Screenshot Directory: {os.path.dirname(screenshot_path)}\n\n")
+                screenshot_directory_logged = True
             f.write(log_entry)
+        if last_logged_date != current_date:
+            print(f"Date: {current_date}")  # Print date to console
+        if not screenshot_directory_logged:
+            print(
+                f"Screenshot Directory: {os.path.dirname(screenshot_path)}"
+            )  # Print screenshot directory to console
         print(log_entry.strip())  # Optional: Print to console
     except Exception as e:
         print(f"Error logging user activity: {e}")

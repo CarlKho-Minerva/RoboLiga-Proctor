@@ -10,9 +10,9 @@ def sanitize_filename(filename):
 def capture_screenshot(window_title):
     """Takes a screenshot and saves it to the screenshots folder with a timestamp."""
     try:
-        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        timestamp = datetime.now().strftime("%H-%M-%S")
         sanitized_title = sanitize_filename(window_title)
-        screenshot_filename = f"screenshot_{sanitized_title}_{timestamp}.png"
+        screenshot_filename = f"{timestamp}_{sanitized_title}.png"
         screenshot_path = os.path.join(screenshot_folder, screenshot_filename)
         screenshot = ImageGrab.grab()
         screenshot.save(screenshot_path)
