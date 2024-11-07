@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
-from src.screenshot import capture_screenshot
-from src.active_window import get_current_window_title
+from utils.screenshot import capture_screenshot
+from utils.active_window import get_current_window_title
 from config import log_file
 import subprocess
 
