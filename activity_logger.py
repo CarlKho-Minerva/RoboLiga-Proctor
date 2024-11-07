@@ -8,15 +8,18 @@ import subprocess
 
 def log_activity(active_window):
     """Logs the active window and screenshot path with a timestamp."""
-    with open(log_file, "a") as f:
+    try:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         screenshot_path = take_screenshot()
         log_entry = (
             f"{timestamp} | Active Window: {active_window} | "
             f"Screenshot: {screenshot_path}\n"
         )
-        f.write(log_entry)
+        with open(log_file, "a") as f:
+            f.write(log_entry)
         print(log_entry.strip())  # Optional: Print to console
+    except Exception as e:
+        print(f"Error logging activity: {e}")
 
 
 def get_active_window_title():
