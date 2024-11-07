@@ -1,5 +1,5 @@
 import time
-from activity_logger import log_activity, get_active_window_title
+from activity_logger import log_user_activity, get_current_window_title
 from config import screenshot_interval
 
 
@@ -8,8 +8,8 @@ def main():
     try:
         print("Starting activity monitoring...")
         while True:
-            active_window = get_active_window_title()
-            log_activity(active_window)
+            window_title = get_current_window_title()
+            log_user_activity(window_title)
             time.sleep(screenshot_interval)
     except KeyboardInterrupt:
         print("Monitoring stopped.")

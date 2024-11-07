@@ -3,12 +3,17 @@ from datetime import datetime
 from PIL import ImageGrab
 from config import screenshot_folder
 
+def sanitize_filename(filename):
+    """Sanitize the filename by removing or replacing invalid characters."""
+    return "".join(c if c.isalnum() or c in (' ', '.', '_') else '_' for c in filename)
 
-def take_screenshot():
+def capture_screenshot(window_title):
     """Takes a screenshot and saves it to the screenshots folder with a timestamp."""
     try:
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        screenshot_path = os.path.join(screenshot_folder, f"screenshot_{timestamp}.png")
+        sanitized_title = sanitize_filename(window_title)
+        screenshot_filename = f"screenshot_{sanitized_title}_{timestamp}.png"
+        screenshot_path = os.path.join(screenshot_folder, screenshot_filename)
         screenshot = ImageGrab.grab()
         screenshot.save(screenshot_path)
         return screenshot_path
